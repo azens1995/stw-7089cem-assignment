@@ -1,0 +1,7 @@
+---
+title: "Assignment"
+author: "Eklak"
+date: "2025-05-15"
+output: html_document
+---
+
