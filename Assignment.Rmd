@@ -5,3 +5,92 @@ date: "2025-05-15"
 output: html_document
 ---
 
+# A. Install Packages
+```{r Install Packages, include=FALSE}
+install.packages("matlib")
+install.packages("rsample")
+install.packages("glmnet")
+```
+
+
+# B. Import Libraries required for analysis
+```{r Load Libraries, include=FALSE}
+library(matlib)
+library(ggplot2)
+library(rsample)
+library(glmnet)
+```
+
+
+# C. Importing and Loading data from the CSV file
+```{r Load dataset from the CSV, include=FALSE}
+data <- read.csv("data/dataset.csv")
+```
+
+# C.1. Data Assignment to X and displaying it
+```{r Creating Matrix X and Displaying data}
+X <- as.matrix(data[, 1:4]) # Select the first four columns
+# x1 -> Temperature (T)
+# x3 -> Ambient Pressure (AP)
+# x4 -> Relative Humidity (RH)
+# x5 -> Exhaust Vacuum (V)
+colnames(X)<-c("x1","x3","x4","x5")
+
+X # Displaying the data
+```
+
+
+# C.2. Data Assignment to Y and displaying it
+```{r Creating Matrix Y with x2 data and display it}
+# x2 -> Net hourly energy output (EP)
+Y <- as.matrix(data[, 5])   # Select the fifth x2 column (last one)
+colnames(Y)<-c("y")
+
+Y
+```
+
+
+# Task 1: Preliminary Data Analysis
+## Plotting Time series data
+```{r}
+# Convert the input variables to time series objects using row index as time
+x1_ts <- ts(X[,1])
+x2_ts <- ts(X[,2])
+x3_ts <- ts(X[,3])
+x4_ts <- ts(X[,4])
+
+y_ts <- ts(Y[,1])
+```
+
+
+## Plotting time series of input and target variables
+```{r}
+# Set up the plotting area to have 4 plots in one column with adjusted margins
+par(mfrow = c(4, 1), mar = c(4, 4, 2, 1))
+
+# Plot the time series of x1
+plot(x1_ts, type = "l", col = "red", xlab = "Time", ylab = "x1", main = "Time Series of Input Signal: x1")
+
+# Plot the time series of x3
+plot(x3_ts, type = "l", col = "green", xlab = "Time", ylab = "x3", main = "Time Series of Input Signal: x3")
+
+# Plot the time series of x4
+plot(x4_ts, type = "l", col = "blue", xlab = "Time", ylab = "x4", main = "Time Series of Input Signal: x4")
+
+# Plot the time series of x5
+plot(x5_ts, type = "l", col = "purple", xlab = "Time", ylab = "x5", main = "Time Series of Input Signal: x5")
+
+
+# Reset the plotting area to have 1 plot for the output variable
+par(mfrow = c(1, 1))
+
+# Plot the time series of x2
+plot(x2_ts, type = "l", col = "blue", xlab = "Time", ylab = "x2", main = "Time Series of Output Signal")
+
+
+```
+
+
+
+
+
