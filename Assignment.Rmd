@@ -564,28 +564,28 @@ qqline(model5_error, col = "brown")
 ## Task 2.7 splitting data into training and testing dataset and calculating estamation based on training dataset
 ##also plotting normal distribution graph of training data
 ```{r}
-## Spliting the dataset y into  Traning and testing data set.
+## Splitting the dataset y into  Training and testing data set.
 set.seed(253)
 split_Y<-initial_split(data = as.data.frame(Y),prop=.7)
-## Traning splitted Y dataset 
+## Training splited Y dataset 
 Y_training_set<-training(split_Y)
 Y_testing_set<-as.matrix(testing(split_Y))
-## Testing splitted Y dataset 
+## Testing splited Y dataset 
 Y_training_data<-as.matrix(Y_training_set)
 
-## Spliting the dataset of X into  Traning and testing data set.
+## Splitting the dataset of X into  Training and testing data set.
 split_X<-initial_split(data = as.data.frame(X),prop=.7)
-## Traning splitted X dataset
+## Training splited X dataset
 X_training_set<-training(split_X)
-## Testing splitted X dataset 
+## Testing splited X dataset 
 X_testing_set<-as.matrix(testing(split_X))
 X_testing_data<-as.matrix(X_testing_set)
 X_training_data<-as.matrix(X_training_set)
 
-### Estimating model parameters using Traning set
+### Estimating model parameters using Training set
 traning_ones=matrix(1 , length(X_training_set$x1),1)
-# selected model 3 and using equation of model 3
-X_traning_model<-cbind(traning_ones,X_training_set[,"x3"],(X_training_set[,"x4"]),(X_training_set[,"x5"])^3)
+# selected model 2 and using equation of model 2
+X_traning_model<-cbind(traning_ones,X_training_set[,"x4"],(X_training_set[,"x3"])^2,(X_training_set[,"x5"]))
 traning_thetahat=solve(t(X_traning_model) %*% X_traning_model) %*% t(X_traning_model) %*%  Y_training_data
   
 ### Model out/Prediction
