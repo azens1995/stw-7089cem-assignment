@@ -248,7 +248,7 @@ Model1_thetahat
 
 #For Model 2
 #Binding data from equation of Model 2.
-X_model2<-cbind(ones,X[,"x4"],X[,"x3"]^2,X[,"x5"])
+X_model2<-cbind(ones,X[,"x4"], X[,"x3"]^2, X[,"x5"])
 # X_model2
 #Calculating thetahat of Model 2
 Model2_thetahat=solve(t(X_model2) %*% X_model2) %*% t(X_model2) %*% Y
@@ -257,7 +257,7 @@ Model2_thetahat
 
 #Model 3
 #Binding data from equation of Model 3.
-X_model3<-cbind(ones,(X[,"x3"]),(X[,"x4"]),(X[,"x5"])^3)
+X_model3<-cbind(X[,"x3"], X[,"x4"], X[,"x5"]^3)
 # X_model3
 #Calculating thetahat of Model 3
 Model3_thetahat=solve(t(X_model3) %*% X_model3) %*% t(X_model3) %*% Y
@@ -266,7 +266,7 @@ Model3_thetahat
 
 #For Model 4
 #Binding data from equation of Model 4.
-X_model4<-cbind(ones,(X[,"x4"]),(X[,"x3"])^2,(X[,"x5"])^3)
+X_model4<-cbind(ones,(X[,"x4"]), X[,"x3"]^2, X[,"x5"]^3)
 # X_model4
 # #Calculating thetahat of Model 4
 Model4_thetahat=solve(t(X_model4) %*% X_model4) %*% t(X_model4) %*% Y
@@ -275,7 +275,7 @@ Model4_thetahat
 
 # for Model 5
 #Binding data from equation of Model 5.
-X_model5<-cbind(ones,(X[,"x4"]),(X[,"x1"])^2,(X[,"x3"])^2)
+X_model5<-cbind(ones, X[,"x4"], X[,"x1"]^2, X[,"x3"]^2)
 # X_model5
 #Calculating thetahat of model 1
 Model5_thetahat=solve(t(X_model5) %*% X_model5) %*% t(X_model5) %*% Y
@@ -594,8 +594,8 @@ Y_testing_hat
 RSS_testing=sum((Y_testing_set-Y_testing_hat)^2)
 RSS_testing
 t.test(Y_training_data, mu=500, alternative="two.sided", conf.level=0.95)
-C_I1=-0.02089357
-C_I2=0.02711158
+C_I1=454.0084
+C_I2=454.8277
 p2 <- plot(density(Y_training_data), col="blue", lwd=2,
            main="Distribution of Traning Data")
 abline(v=C_I1,col="brown", lty=2)
@@ -623,20 +623,20 @@ C_I_2
 
 ## Task 3
 ```{r}
-## Model 3 will be used, parameter are selected and kept constant.
+## Model 2 will be used, parameter are selected and kept constant.
 f_value=0
 s_value=0
+arr_1=0
+arr_2=0
 #values from thetahat
-thetabias <- abs(Model3_thetahat[1]) #selected parameter
-thetaone <- abs(Model3_thetahat[2]) # selected parameter
-thetatwo <- abs(Model3_thetahat[3]) # constant value
-thetathree <- abs(Model3_thetahat[4]) # constant value
+thetabias <- abs(Model2_thetahat[1]) #selected parameter
+thetaone <- abs(Model2_thetahat[2]) # selected parameter
+thetatwo <- abs(Model2_thetahat[3]) # constant value
+thetathree <- abs(Model2_thetahat[4]) # constant value
 
 
-Epison <- RSS_Model_3 * 2 ## fixing value of epison
+Epison <- RSS_Model_2 * 2 ## fixing value of epison
 num <- 100 #number of iteration
-arr_1=numeric(num)
-arr_2=numeric(num)
 ##Calculating Y-hat for performing rejection ABC
 range1 <- runif(1, thetabias * 0.8, thetabias * 1.2)
 range1
@@ -649,7 +649,7 @@ for (i in 1:num) {
   range2 <- runif(1, thetaone * 0.8, thetaone * 1.2)
   
   New_thetahat <- matrix(c(range1,range2,thetatwo,thetathree))
-  New_Y_Hat <- X_model3 %*% New_thetahat ## calculating new Y-hat
+  New_Y_Hat <- X_model2 %*% New_thetahat ## calculating new Y-hat
   new_RSS <- sum((Y-New_Y_Hat)^2)
   new_RSS
   if (new_RSS > Epison){
