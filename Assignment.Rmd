@@ -214,7 +214,7 @@ head(data)
 X <- as.matrix(data[, 1:4]) # Select the first four columns
 colnames(X)<-c("x1","x3","x4","x5")
 
-Y <- as.matrix(data[, 5])   # Select the fifth x2 column (last one)
+Y <- as.matrix(rawData[, 5])   # Select the fifth x2 column (last one from non-normalized dataset)
 colnames(Y)<-c("y")
 
 # Accessing input and output variables from matrix
@@ -624,28 +624,32 @@ C_I_2
 ## Task 3
 ```{r}
 ## Model 3 will be used, parameter are selected and kept constant.
-arr_1=0
-arr_2=0
 f_value=0
 s_value=0
-Model5_thetahat
 #values from thetahat
-thetabias <- Model3_thetahat[1] #selected parameter
-thetaone <- Model3_thetahat[2] # selected parameter
-thetatwo <- Model3_thetahat[3] # constant value
-thetathree <- Model3_thetahat[4] # constant value
+thetabias <- abs(Model3_thetahat[1]) #selected parameter
+thetaone <- abs(Model3_thetahat[2]) # selected parameter
+thetatwo <- abs(Model3_thetahat[3]) # constant value
+thetathree <- abs(Model3_thetahat[4]) # constant value
 
 
 Epison <- RSS_Model_3 * 2 ## fixing value of epison
 num <- 100 #number of iteration
+arr_1=numeric(num)
+arr_2=numeric(num)
 ##Calculating Y-hat for performing rejection ABC
+range1 <- runif(1, thetabias * 0.8, thetabias * 1.2)
+range1
+
+range2 <- runif(1, thetaone * 0.8, thetaone * 1.2)
+range2
 counter <- 0
 for (i in 1:num) {
   range1 <- runif(1, thetabias * 0.8, thetabias * 1.2) # calculating the range
-  range1
   range2 <- runif(1, thetaone * 0.8, thetaone * 1.2)
+  
   New_thetahat <- matrix(c(range1,range2,thetatwo,thetathree))
-  New_Y_Hat <- X_model2 %*% New_thetahat ## calculating new Y-hat
+  New_Y_Hat <- X_model3 %*% New_thetahat ## calculating new Y-hat
   new_RSS <- sum((Y-New_Y_Hat)^2)
   new_RSS
   if (new_RSS > Epison){
@@ -663,9 +667,6 @@ hist(s_value)
 plot(f_value,s_value, col = c("brown", "blue"), main = "Joint and Marginal Posterior Distribution")
 par(mfrow=c(1,1))
 ```
-
-
-
 
 
 
